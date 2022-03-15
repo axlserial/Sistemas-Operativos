@@ -15,19 +15,29 @@ int main(int argc, char const *argv[]){
 
 	// establece el numero de hijos a crear
 	cant_hijos = atoi(argv[1]);
-	pid_t hijos[cant_hijos];
+	// pid_t hijos[cant_hijos];
+	pid_t hijo;
 
-	for (int i = 0; i < cant_hijos; i++){
-		hijos[i] = fork();
+	int i;
+	for (i = 1; i <= cant_hijos; i++){
+		hijo = fork();
 
-		if (hijos[i] == 0){
-			fprintf(stdout,"Soy el hijo numero: %d\n", i + 1);
-			exit(0);
-		} else {
-			if (wait(&estado) == hijos[i]){
-				fprintf(stdout,"Termino mi hijo %d PID: %ld\n", i + 1, (long)hijos[i]);
-			}
+		if (hijo == 0){
+			break;
 		}
+	}
+
+	if (hijo == 0){
+		fprintf(stdout,"Soy el hijo numero: %d\n", i);
+		exit(0);
+	} else {
+		hijo = wait(&estado);
+		do {
+			if (hijo > 0){
+				fprintf(stdout,"Termino mi hijo PID: %ld\n", (long)hijo);
+			}
+			hijo = wait(&estado);
+		} while(hijo != -1);
 	}
 	
 }
