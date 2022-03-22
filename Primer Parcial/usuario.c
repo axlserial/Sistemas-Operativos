@@ -65,11 +65,9 @@ int main(int argc, char *argv[]){
 				if (p == NULL){
 					printf("No existe el usuario '%s', error al crear directorio en home...\n", argv[1]);
 				} else {
-					strcat(directorio, "/home/");
-					strcat(directorio, argv[1]);
-					strcat(directorio, "/");
-					strcat(directorio, argv[2]);
+					sprintf(directorio, "/home/%s/%s", argv[1], argv[2]);
 					status = mkdir(directorio, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+					
 					if (status == 0){
 						printf("Directorio '%s' creado con exito\n", argv[2]);
 					} else {
