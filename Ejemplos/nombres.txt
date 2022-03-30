@@ -1,0 +1,3 @@
+1.170.100.192.in-addr.arpa domain name pointer mixteco.utm.mx.
+2.170.100.192.in-addr.arpa domain name pointer website.utm.mx.
+3.170.100.192.in-addr.arpa domain name pointer ndikandi.utm.mx.
