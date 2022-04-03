@@ -1,3 +1,23 @@
+/*
+*	Documentación del programa 'usuario.c'
+*
+*	Descripción:	Programa que recibe desde linea de comandos el login de un usuario
+*					y se le asigna a procesos el buscar su información en el archivo
+*					passwd, mandar un correo al usuario y crear un directorio en su
+*					carpeta home con el nombre dado por línea de comandos.
+*
+*	Modo de compilación: gcc usuario.c -o usuario
+*
+*	Modo de ejecución:	./usuario <nombre-usuario> <nombre-directorio> 
+*
+*	Elaborado por:	
+*		Ayala Ruíz Mario Antonio
+*		Elorza Velásquez Margarita
+*		García González Axel Isaac
+*
+*	Licencia: CC BY-NC-SA 4.0
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,7 +39,7 @@ int main(int argc, char *argv[]){
 	}
 
 	int estado, status;
-	char directorio[100];
+	char directorio[100], correo[100];
 	pid_t hijo;
 	struct passwd *p;
 
@@ -53,10 +73,15 @@ int main(int argc, char *argv[]){
 
 			// b) Enviar correo al usuario
 			case 2:
+				// Si el usuario no existe
 				if (p == NULL){
-					printf("Enviando correo a root: Recordar a '%s' hacer su tarea...\n", argv[1]);
+					sprintf(correo, "echo \"Recordar a '%s' hacer su tarea para el parcial...\" | mail -s \"Tarea del parcial\" root", argv[1]);
+					system(correo);
+					printf("Correo enviado a root\n");
 				} else {
-					printf("Enviando correo a '%s': Tienes tarea para el dia del parcial...\n", argv[1]);
+					sprintf(correo, "echo \"Tienes tarea para el dia del parcial...\" | mail -s \"Tarea del parcial\" %s", argv[1]);
+					system(correo);
+					printf("Correo enviado a %s\n", argv[1]);
 				}
 				break;
 				

@@ -1,3 +1,23 @@
+/*
+*	Documentación del programa 'hijos.c'
+*
+*	Descripción:	Programa que recibe desde linea de comandos la cantidad de procesos
+*					hijos a crear, el proceso padre despues de crear a los n hijos
+*					espera su conclusión e imprime el PID del hijo que terminó, además
+*					el hijo debe de imprimir su número de hijo (no PID).
+*
+*	Modo de compilación: gcc hijos.c -o hijos
+*
+*	Modo de ejecución:	./hijos <num-hijos> 
+*
+*	Elaborado por:	
+*		Ayala Ruíz Mario Antonio
+*		Elorza Velásquez Margarita
+*		García González Axel Isaac
+*
+*	Licencia: CC BY-NC-SA 4.0
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
