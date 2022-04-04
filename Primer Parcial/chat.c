@@ -1,3 +1,23 @@
+/*
+*	Documentación del programa 'chat.c'
+*
+*	Descripción:	Programa que simula el funcionaiento de un chat rústico. La conversación 
+*					se realiza entre un proceso padre y un proceso hijo. Cada uno tiene su turno 
+*					para enviar un mensaje y leer el mensaje que envio el otro, para comunicarse 
+*					hacen uso de dos tuberias sin nombre. La conversación finaliza cuando alguno 
+*					de los procesos envie el mensaje: mata kondo.
+*
+*	Modo de compilación: gcc chat.c -o chat
+*
+*	Modo de ejecución:	./chat
+*
+*	Elaborado por:	
+*		Ayala Ruíz Mario Antonio
+*		Elorza Velásquez Margarita
+*		García González Axel Isaac
+*
+*	Licencia: CC BY-NC-SA 4.0
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,11 +32,11 @@
 #define SEM_PADRE 1
 
 /*
-	fd[0]: lectura
-	fd[1]: escritura
-
-	fd1 = padre
-	fd2 = hijo 
+*	fd[0]: lectura
+*	fd[1]: escritura
+*
+*	fd1 = padre
+*	fd2 = hijo 
 */
 
 int main(int argc, char *argv[]){
