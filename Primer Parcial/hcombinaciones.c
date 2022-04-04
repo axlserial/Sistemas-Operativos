@@ -1,3 +1,23 @@
+/*
+*	Documentación del programa 'hcombinaciones.c'
+*
+*	Descripción:	Programa que recibe desde linea de comandos el valor n correspondiente al numero 
+					de combinaciones de un conjunto de n en k. Cada nCk es calculado por un hilo hijo. 
+					El hilo padre, despues de crear a los n+1 hijos, calculara la suma:
+								Combinacones_Totales = nCk + nC(k-1) +. .. + nC1 + nC0 
+					y posteriormente mostrara el resultado en pantalla. 
+*
+*	Modo de compilación: gcc -Wall hcombinaciones.c -lpthread -o hcombinaciones
+*
+*	Modo de ejecución:	./hcombinaciones < n >
+*
+*	Elaborado por:	
+*		Ayala Ruíz Mario Antonio
+*		Elorza Velásquez Margarita
+*		García González Axel Isaac
+*
+*	Licencia: CC BY-NC-SA 4.0
+*/
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,7 +29,7 @@ typedef struct {
 } hiloDato;
 
 void *combina(void *valor);
-unsigned long long cnr(int n, int k);
+unsigned long long nCk(int n, int k);
 
 int main(int argc, char const *argv[]){
 
@@ -53,20 +73,39 @@ int main(int argc, char const *argv[]){
 	}
 
 	// muestra resultado en pantalla
-	printf("suma = %llu\n", suma);
+	printf("Combinacones_Totales = %llu\n", suma);
 
 	return EXIT_SUCCESS;
 }
 
+/*
+*	Función:	void *combina(void *valor)
+*	Descripción:	Función que obtiene la estructura con los datos a trabajar. 
+*					Despues con los valores de la estrutura se calcula el número 
+*					de combinaciones de n en k al llamar a la función nCk.
+*	Parametros de entrada:	
+*							void *valor:	Estructura de los datos a trabajar.
+*	Retorno:		---	
+*/
+
 void *combina(void *valor){
 	hiloDato *datos;
 	datos = (hiloDato *)valor;
-	datos->comb = cnr(datos->n, datos->k);
+	datos->comb = nCk(datos->n, datos->k);
 	pthread_exit(0);
 }
 
-unsigned long long cnr(int n, int k){
-	unsigned long long aux = 1;
+/*
+*	Función: 	unsigned long long nCk(int n, int k)
+*	Descripción:	Función que calcula el conjunto de combinaciones de n en k
+*	Parámetros de entrada:	
+*							int n:	conjunto de n elemtos
+*							int k:	subconjunto de k elementos
+*	Retorno:	unsigned long long c:	Conjunto de combinaciones de n en k
+*/
+
+unsigned long long nCk(int n, int k){
+	unsigned long long c = 1;
 
 	// selecciona el valor más chico
 	if ((n - k) < k){
@@ -76,13 +115,13 @@ unsigned long long cnr(int n, int k){
 	for(int j = 1; j <= k; j++, n--) {
 
 		if (n % j == 0) {
-			aux *= n / j; 
-		} else if (aux % j == 0) {
-			aux = (aux / j) * n;
+			c *= n / j; 
+		} else if (c % j == 0) {
+			c = (c / j) * n;
 		} else {
-			aux = (aux * n) / j;
+			c = (c * n) / j;
 		}
 	}
 
-	return aux;
+	return c;
 }

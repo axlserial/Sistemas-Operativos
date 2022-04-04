@@ -71,7 +71,7 @@ int main(int argc, char *argv[]){
 	pthread_create(&hilo2, &attr, funcion2, NULL);
 	pthread_create(&hilo3, &attr, funcion3, NULL);
 	pthread_create(&hilo4, &attr, funcion4, NULL);
-	// Espera hilos
+	// Espera hilos		
 	pthread_join(hilo1, NULL);
 	pthread_join(hilo2, NULL);
 	pthread_join(hilo3, NULL);
@@ -81,7 +81,10 @@ int main(int argc, char *argv[]){
 }
 
 /*
-*	Renderiza el fondo en la ventana
+*	Función: 	void pantalla()
+*	Descripción:	Función que renderiza el fondo en la ventana.
+*	Parámetros de entrada:	---
+*	Retorno:	---
 */
 void pantalla()
 {
@@ -93,8 +96,11 @@ void pantalla()
 }
 
 /*
-*	Función del hilo que renderiza al auto 1
-*	que se mueve de derecha a izquierda
+*	Función: 	void *funcion1(void *valor)
+*	Descripción:	Función del hilo que renderiza al auto 1 que se mueve de derecha a izquierda
+*	Parámetros de entrada:	
+*							void *valor: NULL.
+*	Retorno:	---
 */
 void *funcion1(void *valor)
 {
@@ -122,8 +128,11 @@ void *funcion1(void *valor)
 }
 
 /*
-*	Función del hilo que renderiza al auto 2
-*	que se mueve de derecha a izquierda
+*	Función: 	void *funcion2(void *valor)
+*	Descripción:	Función del hilo que renderiza al auto 2 que se mueve de derecha a izquierda
+*	Parámetros de entrada:	
+*							void *valor: NULL.
+*	Retorno:	---
 */
 void *funcion2(void *valor)
 {
@@ -149,8 +158,11 @@ void *funcion2(void *valor)
 }
 
 /*
-*	Función del hilo que renderiza al auto 3
-*	que se mueve de izquierda a derecha
+*	Función: 	void *funcion3(void *valor)
+*	Descripción:	Función del hilo que renderiza al auto 3 que se mueve de izquierda a derecha
+*	Parámetros de entrada:	
+*							void *valor: NULL.
+*	Retorno:	---
 */
 void *funcion3(void *valor)
 {
@@ -176,8 +188,11 @@ void *funcion3(void *valor)
 }
 
 /*
-*	Función del hilo que renderiza al auto 4
-*	que se mueve de izquierda a derecha
+*	Función: 	void *funcion4(void *valor)
+*	Descripción:	Función del hilo que renderiza al auto 4 que se mueve de izquierda a derecha
+*	Parámetros de entrada:	
+*							void *valor: NULL.
+*	Retorno:	---
 */
 void *funcion4(void *valor)
 {
