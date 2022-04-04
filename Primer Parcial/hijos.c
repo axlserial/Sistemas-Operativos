@@ -35,7 +35,6 @@ int main(int argc, char const *argv[]){
 
 	// establece el numero de hijos a crear
 	cant_hijos = atoi(argv[1]);
-	// pid_t hijos[cant_hijos];
 	pid_t hijo;
 
 	int i;
@@ -58,6 +57,7 @@ int main(int argc, char const *argv[]){
 			}
 			hijo = wait(&estado);
 		} while(hijo != -1);
+		exit(0);
 	}
 	
 }

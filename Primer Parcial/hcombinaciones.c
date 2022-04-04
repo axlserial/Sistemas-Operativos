@@ -18,6 +18,7 @@
 *
 *	Licencia: CC BY-NC-SA 4.0
 */
+
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -87,7 +88,6 @@ int main(int argc, char const *argv[]){
 *							void *valor:	Estructura de los datos a trabajar.
 *	Retorno:		---	
 */
-
 void *combina(void *valor){
 	hiloDato *datos;
 	datos = (hiloDato *)valor;
@@ -103,7 +103,6 @@ void *combina(void *valor){
 *							int k:	subconjunto de k elementos
 *	Retorno:	unsigned long long c:	Conjunto de combinaciones de n en k
 */
-
 unsigned long long nCk(int n, int k){
 	unsigned long long c = 1;
 

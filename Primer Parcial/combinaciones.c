@@ -2,10 +2,11 @@
 *	Documentación del programa 'combinaciones.c'
 *
 *	Descripción:	Programa que recibe desde linea de comandos el valor n correspondiente al numero 
-					de combinaciones de un conjunto de n en k. Cada nCk es calculado por un proceso hijo. 
-					El proceso padre, despues de crear a los n+1 hijos, calculara la suma:
-								Combinacones_Totales = nCk + nC(k-1) +. .. + nC1 + nC0 
-					y posteriormente mostrara el resultado en pantalla. 
+*					de combinaciones de un conjunto de n en k. Cada nCk es calculado por un proceso hijo,
+*					estos guardando en el archivo 'Combinaciones.txt' sus resultados. 
+*					El proceso padre, despues de crear a los n+1 hijos, calculara la suma:
+*									Combinaciones_Totales = nCk + nC(k-1) +. .. + nC1 + nC0 
+*					y posteriormente mostrara el resultado en pantalla. 
 *
 *	Modo de compilación: gcc combinaciones.c -o combinaciones
 *
@@ -18,6 +19,7 @@
 *
 *	Licencia: CC BY-NC-SA 4.0
 */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -97,11 +99,10 @@ int main(int argc, char const *argv[]){
 *	Función: 	unsigned long long nCk(int n, int k)
 *	Descripción:	Calcula el conjunto de combinaciones de n en k
 *	Parametros de entrada:	
-*							int n:	conjunto de n elemtos
+*							int n:	conjunto de n elementos
 *							int k:	subconjunto de k elementos
 *	Retorno:	unsigned long long c:	Conjunto de combinaciones de n en k
 */
-
 unsigned long long nCk(int n, int k){
 	unsigned long long c = 1;
 

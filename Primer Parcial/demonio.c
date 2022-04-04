@@ -2,7 +2,7 @@
 *	Documentación del programa 'demonio.c'
 *
 *	Descripción:	Programa que crea un Demonio y que cada medio minuto escribe en un archivo
-					SOY EL DEMONIO Y TENGO EL "PID" ASOCIADO.
+*					llamado 'textodemonio.txt' lo siguiente: SOY EL DEMONIO Y MI PID ES: <PID>.
 *
 *	Modo de compilación: gcc demonio.c -o demonio
 *
