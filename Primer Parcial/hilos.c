@@ -56,7 +56,7 @@ int main (int argc, char const *argv[]){
 *	Función: 	void *funcion(void *dato)
 *	Descripción:	Función imprime en pantalla un mensaje con el ID del hilo asociado
 *	Parámetros de entrada:	
-*							void *dato:	valor(es) de los datos a trabajar o NULL.
+*							void *dato:	NULL.
 *	Retorno:	---
 */
 void *funcion(void *dato) {
