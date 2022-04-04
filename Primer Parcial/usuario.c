@@ -115,7 +115,14 @@ int main(int argc, char *argv[]){
 	return EXIT_SUCCESS;
 }
 
-// Busca los datos del usuario
+/*
+*	Función: 	struct passwd *busca_datos_usr(char *usuario)
+*	Descripción:	Función que busca los datos del usurio. 
+*	Parámetros de entrada:	
+*							char *usuario:	nombre del usuario a buscar.
+*	Retorno:	
+*				struct passwd *p: estrutura con los datos del usuario.
+*/
 struct passwd *busca_datos_usr(char *usuario){
 	struct passwd *p;
 

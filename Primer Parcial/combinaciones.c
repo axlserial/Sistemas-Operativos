@@ -1,10 +1,30 @@
+/*
+*	Documentación del programa 'combinaciones.c'
+*
+*	Descripción:	Programa que recibe desde linea de comandos el valor n correspondiente al numero 
+					de combinaciones de un conjunto de n en k. Cada nCk es calculado por un proceso hijo. 
+					El proceso padre, despues de crear a los n+1 hijos, calculara la suma:
+								Combinacones_Totales = nCk + nC(k-1) +. .. + nC1 + nC0 
+					y posteriormente mostrara el resultado en pantalla. 
+*
+*	Modo de compilación: gcc combinaciones.c -o combinaciones
+*
+*	Modo de ejecución:	./combinaciones < n >
+*
+*	Elaborado por:	
+*		Ayala Ruíz Mario Antonio
+*		Elorza Velásquez Margarita
+*		García González Axel Isaac
+*
+*	Licencia: CC BY-NC-SA 4.0
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
-unsigned long long cnr(int n, int k);
+unsigned long long nCk(int n, int k);
 
 int main(int argc, char const *argv[]){
 	int n, k;
@@ -25,7 +45,7 @@ int main(int argc, char const *argv[]){
 
 	// verifica el argumento
 	if (argc == 1 || argc > 2){
-		printf("Debes colocar como unico argumento el numero de n combinaciones\n");
+		printf("Debes colocar como unico argumento el numero de combinaciones de < n > en k  \n");
 		exit(1);
 	}
 
@@ -44,7 +64,7 @@ int main(int argc, char const *argv[]){
 	}
 
 	if (hijo == 0){
-		comb = cnr(n, k);
+		comb = nCk(n, k);
 		fprintf(file, "%llu\n", comb);
 		fflush (file);
 		fclose(file);
@@ -68,13 +88,22 @@ int main(int argc, char const *argv[]){
 			
 	}
 
-	fprintf(stdout, "suma = %llu \n", suma);
+	fprintf(stdout, "Combinacones_Totales = %llu \n", suma);
 
 	return EXIT_SUCCESS;
 }
 
-unsigned long long cnr(int n, int k){
-	unsigned long long aux = 1;
+/*
+*	Función: 	unsigned long long nCk(int n, int k)
+*	Descripción:	Calcula el conjunto de combinaciones de n en k
+*	Parametros de entrada:	
+*							int n:	conjunto de n elemtos
+*							int k:	subconjunto de k elementos
+*	Retorno:	unsigned long long c:	Conjunto de combinaciones de n en k
+*/
+
+unsigned long long nCk(int n, int k){
+	unsigned long long c = 1;
 
 	// selecciona el valor más chico
 	if ((n - k) < k){
@@ -84,13 +113,13 @@ unsigned long long cnr(int n, int k){
 	for(int j = 1; j <= k; j++, n--) {
 
 		if (n % j == 0) {
-			aux *= n / j; 
-		} else if (aux % j == 0) {
-			aux = (aux / j) * n;
+			c *= n / j; 
+		} else if (c % j == 0) {
+			c = (c / j) * n;
 		} else {
-			aux = (aux * n) / j;
+			c = (c * n) / j;
 		}
 	}
 
-	return aux;
+	return c;
 }

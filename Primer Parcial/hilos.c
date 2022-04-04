@@ -52,6 +52,13 @@ int main (int argc, char const *argv[]){
     return EXIT_SUCCESS;
 }
 
+/*
+*	Función: 	void *funcion(void *dato)
+*	Descripción:	Función imprime en pantalla un mensaje con el ID del hilo asociado
+*	Parámetros de entrada:	
+*							void *dato:	valor(es) de los datos a trabajar o NULL.
+*	Retorno:	---
+*/
 void *funcion(void *dato) {
 	//Imprime en consola el ID del hilo
     printf("Soy el hilo con el ID asociado:  %u\n", (unsigned int)pthread_self());
