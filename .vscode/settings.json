@@ -2,6 +2,8 @@
 	"files.associations": {
 		"sched.h": "c",
 		"sdl.h": "c",
-		"pthread.h": "c"
+		"pthread.h": "c",
+		"wait.h": "c",
+		"types.h": "c"
 	}
 }

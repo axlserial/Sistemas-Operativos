@@ -41,8 +41,6 @@ int main (int argc, char const *argv[]){
     for (int i=0; i < cant_hilos; i++){
         pthread_attr_init(&attr); 
         pthread_create(&tid[i], &attr, funcion , NULL);
-        // printf ("Soy el hilo núm: %d \n",i+1);
-
     }
 
     //Cerrar los hilos de acuerdo a la cantidad ingresada
