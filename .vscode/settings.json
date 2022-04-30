@@ -7,6 +7,9 @@
 		"types.h": "c",
 		"semaphore.h": "c",
 		"fcntl.h": "c",
-		"unistd.h": "c"
+		"unistd.h": "c",
+		"stdbool.h": "c",
+		"ipc.h": "c",
+		"sem.h": "c"
 	}
 }
