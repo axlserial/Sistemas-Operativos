@@ -10,6 +10,8 @@
 		"unistd.h": "c",
 		"stdbool.h": "c",
 		"ipc.h": "c",
-		"sem.h": "c"
+		"sem.h": "c",
+		"mount.h": "c",
+		"statvfs.h": "c"
 	}
 }
