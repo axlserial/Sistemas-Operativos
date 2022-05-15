@@ -20,22 +20,20 @@
 #include <stdlib.h>
 
 typedef struct {
-	int resultado;
-	//int **cofactor;
+	double resultado;
 	int FilaMin;
 	int tamMatriz;
 	int **matriz;
 } datosMatriz;
 
-//unsigned long long factorial(long long n);
 int **creaMatriz(int tam);
-int determinante2X2(int **matriz);
+double determinante2X2(int **matriz);
 int **cofactor(int **matriz,int tam, int p, int q);
-//int determinanteMC(int **matriz, int tam);
 void *calculaDet(void *valor);
 
 int main(int argc, char const *argv[]){
-	int tam_matriz, resultado=0;
+	int tam_matriz; 
+	double resultado = 0;
 
 	if (argc == 1 || argc > 3){
 		printf("Debes colocar como argumento el tam de la matriz cuadrada < n > seguido del nombre del archivo <archivo.txt>\n");
@@ -74,8 +72,6 @@ int main(int argc, char const *argv[]){
 		else
 			hilos[i].FilaMin = matriz[0][i];
 
-		//hilos[i].resultado *= hilos[i].FilaMin; 
-
 		pthread_create(&tid[i],&attr,calculaDet,&hilos[i]);
 	}
 
@@ -86,35 +82,12 @@ int main(int argc, char const *argv[]){
 
 	for (int i = 0; i < tam_matriz; i++){
 		resultado += hilos[i].resultado;
+		free(hilos[i].matriz);
 	}
 
-	printf("El determinate de la matriz es = %d\n", resultado);
+	printf("El determinate de la matriz es = %f\n", resultado);
 	return 0;
 }
-
-// /*Factorial de un número*/
-// unsigned long long factorial(long long n){
-// 	if (n > 1000)
-// 		return -1;
-
-// 	long long contador;
-// 	long double suma = 0;
-
-// 	// Caso base
-
-// 	if (n == 0)
-// 		return 1;
-
-// 	// Calcula la suma de los logaritmos
-
-// 	for (contador = 1; contador <= n; contador++){
-// 		suma = suma + log(contador);
-// 	}
-
-// 	long double resultado = round(exp(suma)) / 2;
-
-// 	return (unsigned long long int)resultado;
-// }
 
 /*Crea Matriz*/
 int **creaMatriz(int tam){
@@ -135,9 +108,9 @@ int **creaMatriz(int tam){
 }
 
 /*Calcula determinante matriz 2x2*/
-int determinante2X2(int **matriz){
-	int resultado;
-	resultado = matriz[0][0] * matriz[1][1] - matriz[0][1] * matriz[1][0];
+double determinante2X2(int **matriz){
+	double resultado;
+	resultado = (double)matriz[0][0] * (double)matriz[1][1] - (double)matriz[0][1] * (double)matriz[1][0];
 	return resultado;
 }
 
@@ -177,6 +150,8 @@ void *calculaDet(void *valor){
 	}
 	else{
 
+		datos->resultado = 0;
+
 		for(int i = 0; i < datos->tamMatriz; i++){
 			pthread_attr_init(&attr);
 
@@ -198,43 +173,16 @@ void *calculaDet(void *valor){
 		for (int i = 0; i < datos->tamMatriz; i++){
 			pthread_join(tid[i], NULL);
 		}
-		
+
+		// Realiza suma
+		for (int i = 0; i < datos->tamMatriz; i++){
+			datos->resultado += hilos[i].resultado;
+			free(hilos[i].matriz);
+		}
 		
 	}
 
-	datos->resultado *= datos->FilaMin;
+	datos->resultado *= (double)datos->FilaMin;
 
 	pthread_exit(0);
 }
-
-// int determinanteMC(int **matriz, int tam){
-// 	int **auxMat;
-// 	int determinante=0;
-// 	int fila[tam];
-
-
-// 	auxMat = creaMatriz(tam-1);
-// 	if(tam == 2)
-// 		determinante = determinante2X2(matriz);
-		
-// 	else{
-// 		// Calcula el signo
-// 		for(int i = 0; i<tam ; i++){
-// 			if(i%2 != 0){
-// 				fila[i] = -matriz[0][i];
-// 			}
-// 			else{
-// 				fila[i] = matriz[0][i];
-// 			}
-// 		}
-// 		// hilos agregar
-// 		for(int j = 0; j<tam; j++){
-// 			// Obtenemos el cofactor de la matriz
-// 			auxMat = cofactor(matriz,tam,0,j);
-// 			// Calculo del determinante
-// 			determinante += fila[j] * determinanteMC(auxMat,tam-1);
-// 		}
-// 	}
-
-// 	return determinante;
-// }
