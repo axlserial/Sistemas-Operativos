@@ -20,6 +20,8 @@
 
 void listaDirectorio(char *);
 
+long total = 0;
+
 int main(){
 	char ruta[RUTA + 1];
 
@@ -32,6 +34,8 @@ int main(){
 	// Mostrar información y archivos del directorio
 	printf("Ruta inicial: %s:\n", ruta);
 	listaDirectorio(ruta);
+
+	printf("\nTotal: %lld\n", (long long)((total * 500) / 1000));
 
 	return EXIT_SUCCESS;
 }
@@ -69,6 +73,8 @@ void listaDirectorio(char *rutaDir){
 
 		free(actdir);
 
+		total += (long)estado.st_blocks;
+
 		// Muestra información del archivo
 		printf("Nombre: %s\n", archivo->d_name);
 		printf("Permisos: ");
@@ -86,7 +92,6 @@ void listaDirectorio(char *rutaDir){
 		printf("Propietario: %s\n", getpwuid(estado.st_uid)->pw_name);
 		printf("Grupo: %s\n", getgrgid(estado.st_gid)->gr_name);
 		printf("Tamaño: %lld bytes\n", (long long) estado.st_size);
-		printf("Block size: %ld\n", (long)estado.st_blksize);
 		printf("Bloques usados: %ld\n", (long)estado.st_blocks);
 		printf("Ultima fecha de cambio: %s", ctime(&estado.st_ctime));
 		printf("Ultima fecha de acceso: %s", ctime(&estado.st_atime));

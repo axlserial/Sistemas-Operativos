@@ -12,6 +12,11 @@
 		"ipc.h": "c",
 		"sem.h": "c",
 		"mount.h": "c",
-		"statvfs.h": "c"
+		"statvfs.h": "c",
+		"vfs.h": "c",
+		"statfs.h": "c",
+		"magic.h": "c",
+		"utsname.h": "c",
+		"stat.h": "c"
 	}
 }
