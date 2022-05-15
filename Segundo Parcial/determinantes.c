@@ -42,6 +42,8 @@ int main(int argc, char const *argv[]){
 
 	tam_matriz = atoi(argv[1]);
 
+	printf("valor: %d\n", tam_matriz);
+
 	int **matriz, num;
 	matriz = creaMatriz(tam_matriz);
 	FILE *fptr;
@@ -53,6 +55,13 @@ int main(int argc, char const *argv[]){
 			fscanf(fptr, "%d", &num);
 			matriz[i][j] = num;
 		}
+	}
+
+	for (int i = 0; i < tam_matriz; i++){
+		for (int j = 0; j < tam_matriz; j++){
+			printf("%d\t", matriz[i][j]);
+		}
+		printf("\n");
 	}
 
 	fclose(fptr);
@@ -93,10 +102,10 @@ unsigned long long factorial(long long n){
 /*Crea Matriz*/
 int **creaMatriz(int tam){
 	int **matriz;
-	matriz = (int **)malloc(tam * sizeof(int));
+	matriz = malloc(tam * sizeof(int*));
 
 	for (int i = 0; i < tam; i++){
-		matriz[i] = (int *)malloc(tam * sizeof(int));
+		matriz[i] = malloc(tam * sizeof(int));
 	}
 
 	for (int i = 0; i < tam; i++){
