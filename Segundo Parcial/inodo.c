@@ -1,3 +1,22 @@
+/*
+ *	Documentación del programa 'inodo.c'
+ *
+ *	Descripción: 	Programa que se encarga de mostrar todos los campos que muestra el comando ls -la, 
+ *					este lista todos los subdirectorios que contiene el directorio actual de forma recursiva.
+ *					el directorio cambiará de acuerdo a la pocisión en donde nos encontramos cuando el programa
+ *					se encuentre en ejecuión. 
+ *
+ *	Modo de compilación: gcc -Wall inodo.c -o inodo
+ *
+ *	Modo de ejecución:	./inodo
+ *
+ *	Elaborado por:
+ *		Ayala Ruíz Mario Antonio
+ *		Elorza Velásquez Margarita
+ *		García González Axel Isaac
+ *
+ *	Licencia: CC BY-NC-SA 4.0
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -11,15 +30,6 @@
 #include <sys/sysmacros.h>
 
 #define RUTA 255
-
-/*
-	Programa que muestra los datos como si fuera
-	el comando: ls -la, listando todos los
-	subdirectorios de forma recursiva.
-
-	compilacion: gcc -Wall inodo.c -o inodo
-	ejecucioń: ./inodo
-*/
 
 void listaDirectorio(char *);
 

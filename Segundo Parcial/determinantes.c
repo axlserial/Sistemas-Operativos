@@ -1,7 +1,10 @@
 /*
  *	Documentación del programa 'determinantes.c'
  *
- *	Descripción:
+ *	Descripción:		 Programa que se encarga de calcular la determinante de una matriz y mostrar dicho resultado, esto mediante 
+ *						 el uso de procesos ligeros que se encargán de llevar a cabo el cálculo.  El número de la matríz y la matriz 
+ *						 se obtienen desde la línea de comando, escribiendo solamente el número el primero y el segundo a partir de la
+ *						 lectura de un archivo que contiene la matríz a calcular. 
  *
  *	Modo de compilación: gcc -Wall determinantes.c -lpthread -o determinantes
  *

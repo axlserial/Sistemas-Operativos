@@ -1,3 +1,25 @@
+/*
+ *	Documentación del programa 'terminal.c'
+ *
+ *	Descripción:		 Programa que se encarga de enviar mensajes a los usuarios conectados para indicar que su sesión 
+ *						 próxima a culminar cada cierto tiempo y el mensaje se repito un número de veces predeterminado. 
+ *						 Cuando el tiempo indicado se cumpla, la sesión se cierra de manera automática. El programa también 
+ *						 muestra a hora del sistema que tiene el usuario antes que culmine su sesión. 
+ *						 Se recomienda que para la fase de prueba del programa, se deberá sumar diferentes usuarios al sistema 
+ *						 y tenerlos conectados en diferentes tty's.
+ *						 
+ *
+ *	Modo de compilación: gcc -Wall terminal.c -o terminal
+ *
+ *	Modo de ejecución:	sudo ./terminal
+ *
+ *	Elaborado por:
+ *		Ayala Ruíz Mario Antonio
+ *		Elorza Velásquez Margarita
+ *		García González Axel Isaac
+ *
+ *	Licencia: CC BY-NC-SA 4.0
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,10 +31,6 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 
-/*
-	compilacion: gcc -Wall temrinal.c -o terminal
-	ejecucioń: sudo ./terminal
-*/
 
 void delay(double dly);
 

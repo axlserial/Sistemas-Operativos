@@ -1,3 +1,21 @@
+/*
+ *	Documentación del programa 'superbloque.c'
+ *
+ *	Descripción: 	Programa que muestra todas las características del superbloque del sistema de archivo
+ *					donde se encuentre un archivo en particular, dicho archivo se obtendrá desde la linea de comando.
+ *
+ *	Modo de compilación: gcc -Wall superbloque.c -o superbloque
+ *
+ *	Modo de ejecución:	./superbloque <archivo>
+ *
+ *	Elaborado por:
+ *		Ayala Ruíz Mario Antonio
+ *		Elorza Velásquez Margarita
+ *		García González Axel Isaac
+ *
+ *	Licencia: CC BY-NC-SA 4.0
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,11 +24,6 @@
 #include <sys/vfs.h>
 #include <sys/statvfs.h>
 #include <linux/magic.h>
-
-/*
-	compilacion: gcc -Wall superbloque.c -o superbloque
-	ejecucioń: ./superbloque <archivo>
-*/
 
 char *obtenerfs(long);
 
