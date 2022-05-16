@@ -8,8 +8,8 @@
 #include <linux/magic.h>
 
 /*
-	Agregar que muestre el tipo del sistema de archivo
-	tambien, darle formato
+	compilacion: gcc -Wall superbloque.c -o superbloque
+	ejecucioń: ./superbloque <archivo>
 */
 
 char *obtenerfs(long);

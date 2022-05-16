@@ -9,6 +9,11 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 
+/*
+	compilacion: gcc -Wall temrinal.c -o terminal
+	ejecucioń: sudo ./terminal
+*/
+
 void delay(double dly);
 
 int main(){
@@ -37,10 +42,15 @@ int main(){
 			strncmp(user->ut_user, actual, tam) != 0){
 			
 			usuarios[n] = user->ut_pid;
-			printf("%lu: %s\n", (unsigned long)user->ut_pid, user->ut_user);
 			n++;
 		}
 		user = getutent();
+	}
+
+	// Sí no hay usuarios conectados
+	if (n == 0){
+		printf("Sin usuarios conectados a las TTY's\n");
+		exit(EXIT_FAILURE);
 	}
 
 	// Habra fd de las tty's
@@ -51,8 +61,11 @@ int main(){
 	}
 
 	// Muestra aviso	
+	time_t horario = time(NULL);;
 	for (i = 0; i < n; i++){
-		sprintf(mensaje, "{ clear; echo \"AVISO: Se cerrará su sesión en (60) segundos\"; }");
+		sprintf(mensaje, 
+			"{ clear; echo \"AVISO: Se terminará su sesión en (60) segundos. Fecha y hora del sistema: %.24s.\"; }",
+			ctime(&horario));
 		for (j = 0; mensaje[j]; j++)
 			ioctl(fd[i], TIOCSTI, mensaje + j);
 
@@ -63,8 +76,11 @@ int main(){
 	// Muestra cuenta regresiva de los segundos hasta el logout
 	for (k = 10; k >= 0; k--){
 		delay(5.0);
+		horario = time(NULL);
 		for (i = 0; i < n; i++){
-			sprintf(mensaje, "{ clear; echo \"(%d) segundos hasta que se cierre la sesión\"; }", k * 5);
+			sprintf(mensaje, 
+				"{ clear; echo \"Fecha y hora del sistema: %.24s. (%d) segundos hasta que se termine la sesión.\"; }", 
+				ctime(&horario), k * 5);
 			for (j = 0; mensaje[j]; j++)
 				ioctl(fd[i], TIOCSTI, mensaje + j);
 

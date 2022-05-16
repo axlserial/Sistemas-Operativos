@@ -16,6 +16,9 @@
 	Programa que muestra los datos como si fuera
 	el comando: ls -la, listando todos los
 	subdirectorios de forma recursiva.
+
+	compilacion: gcc -Wall inodo.c -o inodo
+	ejecucioń: ./inodo
 */
 
 void listaDirectorio(char *);
@@ -32,7 +35,7 @@ int main(){
 	}
 
 	// Mostrar información y archivos del directorio
-	printf("Ruta inicial: %s:\n", ruta);
+	printf("Ruta inicial: %s:\n\n", ruta);
 	listaDirectorio(ruta);
 
 	printf("\nTotal: %lld\n", (long long)((total * 500) / 1000));
@@ -108,22 +111,18 @@ void listaDirectorio(char *rutaDir){
 			superdir = strncmp(archivo->d_name, "..", 2) == 0;
 		}
 
-		if (tam_total == 4){
-			superdir = strncmp(archivo->d_name, ".git", 4) == 0;
-		}
-
 		// Sí es directorio y no es alguno de los antes comprobados 
 		if ((estado.st_mode & S_IFMT) == S_IFDIR && superdir == 0){
 			// Obtiene ruta del subdirectorio a entrar
 			tam_total += strlen(rutaDir) + 2;
 			subdir = malloc(tam_total * sizeof(char));
 			sprintf(subdir, "%s/%s", rutaDir, archivo->d_name);
-			printf("-----------\nEntrando a subdirectorio: %s\n", subdir);
+			printf("-----------------------------\nEntrando a subdirectorio: %s:\n\n", subdir);
 
 			//llamada recursiva
 			listaDirectorio(subdir);
 			
-			printf("-----------\nRegresando a directorio: %s\n", rutaDir);
+			printf("-----------------------------\nRegresando a directorio: %s:\n\n", rutaDir);
 			free(subdir);
 		}
 

@@ -17,6 +17,7 @@
 		"statfs.h": "c",
 		"magic.h": "c",
 		"utsname.h": "c",
-		"stat.h": "c"
+		"stat.h": "c",
+		"utmp.h": "c"
 	}
 }
