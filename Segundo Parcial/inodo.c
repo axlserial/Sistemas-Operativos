@@ -1,10 +1,9 @@
 /*
  *	Documentación del programa 'inodo.c'
  *
- *	Descripción: 	Programa que se encarga de mostrar todos los campos que muestra el comando ls -la, 
- *					este lista todos los subdirectorios que contiene el directorio actual de forma recursiva.
- *					el directorio cambiará de acuerdo a la pocisión en donde nos encontramos cuando el programa
- *					se encuentre en ejecuión. 
+ *	Descripción: 	Programa que se encarga de mostrar los datos que muestra el comando ls -la, listando todos
+ *					los archivos del directorio. Sí existen subdirectorios dentro de el, los lista de forma 
+ *					recursiva hasta que no encuentre más subdirectorios.
  *
  *	Modo de compilación: gcc -Wall inodo.c -o inodo
  *
@@ -17,6 +16,7 @@
  *
  *	Licencia: CC BY-NC-SA 4.0
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -53,6 +53,14 @@ int main(){
 	return EXIT_SUCCESS;
 }
 
+/*
+*	Función: 		void listaDirectorio(char *rutaDir)
+*	Descripción:	Función recursiva que lista los datos de todos los archivos del directorio 
+*					dado por parámetro y, sí encuentra algún subidirectorio, se llama a sí misma
+*					mandando a ese subdirectorio como parámetro para repetir lo antes dicho.
+*	Parametro de entrada:	char *rutaDir:	Ruta del directorio a listar				
+*	Retorno:				---
+*/
 void listaDirectorio(char *rutaDir){
 	DIR* directorio;
 	struct dirent* archivo;

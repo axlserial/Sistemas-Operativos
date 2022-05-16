@@ -1,13 +1,9 @@
 /*
  *	Documentación del programa 'terminal.c'
  *
- *	Descripción:		 Programa que se encarga de enviar mensajes a los usuarios conectados para indicar que su sesión 
- *						 próxima a culminar cada cierto tiempo y el mensaje se repito un número de veces predeterminado. 
- *						 Cuando el tiempo indicado se cumpla, la sesión se cierra de manera automática. El programa también 
- *						 muestra a hora del sistema que tiene el usuario antes que culmine su sesión. 
- *						 Se recomienda que para la fase de prueba del programa, se deberá sumar diferentes usuarios al sistema 
- *						 y tenerlos conectados en diferentes tty's.
- *						 
+ *	Descripción:		Programa que avisa a los usuarios conectados en las TTy's que en x tiempo (60 segundos)
+ *						se cerrará su sesión, mandandoles mensaje cada x/y tiempo (30/6 = 5 segundos) en forma de recordatorio. 
+ *						Cuando el tiempo indicado se cumpla, la sesión de todos los usuarios en las TTy's terminará.
  *
  *	Modo de compilación: gcc -Wall terminal.c -o terminal
  *
@@ -20,6 +16,7 @@
  *
  *	Licencia: CC BY-NC-SA 4.0
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -114,6 +111,12 @@ int main(){
 	return EXIT_SUCCESS;
 }
 
+/*
+*	Función: 		void delay(double segundos)
+*	Descripción:	Función que crea un delay a partir los segundos dados por parámetro.
+*	Parametro de entrada:	double segundos:	Cantidad de segundos a realizar el delay 				
+*	Retorno:				---
+*/
 void delay(double segundos){
 
 	// Guarda tiempo de inicio

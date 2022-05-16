@@ -1,8 +1,8 @@
 /*
  *	Documentación del programa 'superbloque.c'
  *
- *	Descripción: 	Programa que muestra todas las características del superbloque del sistema de archivo
- *					donde se encuentre un archivo en particular, dicho archivo se obtendrá desde la linea de comando.
+ *	Descripción: 	Programa que muestra las características del superbloque del sistema de archivos
+ *					donde se encuentre el archivo dado por argumento en la linea de comandos.
  *
  *	Modo de compilación: gcc -Wall superbloque.c -o superbloque
  *
@@ -32,7 +32,7 @@ int main(int argc, char const *argv[]){
 	struct statfs fs;
 	char *ruta;
 
-	// Verifica paso desde terminal
+	// Verifica paso desde linea de comandos
 	if (argc != 2){
 		printf("uso:  ./superbloque <archivo>\n");
 		exit(EXIT_FAILURE);
@@ -115,6 +115,13 @@ int main(int argc, char const *argv[]){
 	return EXIT_SUCCESS;
 }
 
+/*
+*	Función: 		char* obtenerfs(long type)
+*	Descripción:	Función que retorna el nombre del sistema de archivos según el
+*					tipo dado por parámetro.
+*	Parametro de entrada:	long type:	Valor del atributo 'f_type' de la estructura 'statfs' 				
+*	Retorno:				char *:		String que contiene el nombre del sistema de archivos
+*/
 char* obtenerfs(long type){
 
 	switch (type){

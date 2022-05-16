@@ -1,10 +1,11 @@
 /*
  *	Documentación del programa 'determinantes.c'
  *
- *	Descripción:		 Programa que se encarga de calcular la determinante de una matriz y mostrar dicho resultado, esto mediante 
- *						 el uso de procesos ligeros que se encargán de llevar a cabo el cálculo.  El número de la matríz y la matriz 
- *						 se obtienen desde la línea de comando, escribiendo solamente el número el primero y el segundo a partir de la
- *						 lectura de un archivo que contiene la matríz a calcular. 
+ *	Descripción:		Programa que se encarga de calcular la determinante de una matriz  de tamaño n por medio del método de 
+ *						menores y cofactores, donde cada menor y cofactor será calculado por medio de procesos ligeros que
+ *						regresarán su resultado individual a su proceso padre, el cuál se encargará de unir los resultados
+ *						para obtener el valor final del determinante. El tamaño de la matríz y el nombre del archivo que 
+ *						contiene a la matriz se pasan como argumentos al ejecutar el programa.
  *
  *	Modo de compilación: gcc -Wall determinantes.c -lpthread -o determinantes
  *
@@ -83,6 +84,7 @@ int main(int argc, char const *argv[]){
 		pthread_join(tid[i], NULL);
 	}
 
+	// Suma resultados de hilos
 	for (int i = 0; i < tam_matriz; i++){
 		resultado += hilos[i].resultado;
 		free(hilos[i].matriz);
@@ -92,7 +94,12 @@ int main(int argc, char const *argv[]){
 	return 0;
 }
 
-/*Crea Matriz*/
+/*
+*	Función: 		int **creaMatriz(int tam)
+*	Descripción:	Crea y devuelve una matriz de 0's cuadrada
+*	Parametro de entrada:	int tam:		Tamaño de la matriz a crear
+*	Retorno:				int ** matriz:	Matriz creada
+*/
 int **creaMatriz(int tam){
 	int **matriz;
 	matriz = malloc(tam * sizeof(int*));
@@ -110,14 +117,27 @@ int **creaMatriz(int tam){
 	return matriz;
 }
 
-/*Calcula determinante matriz 2x2*/
+/*
+*	Función: 		double determinante2X2(int **matriz)
+*	Descripción:	Calcula el determinante de una matriz de 2x2
+*	Parametro de entrada:	int ** matriz:		Matriz de 2x2 a calcular su determinante
+*	Retorno:				double resultado:	Determinante de la matriz dada
+*/
 double determinante2X2(int **matriz){
 	double resultado;
 	resultado = (double)matriz[0][0] * (double)matriz[1][1] - (double)matriz[0][1] * (double)matriz[1][0];
 	return resultado;
 }
 
-int **cofactor(int **matriz,int tam, int p, int q){
+/*
+*	Función: 		int **cofactor(int **matriz,int tam, int p, int q)
+*	Descripción:	
+*	Parametro de entrada:	int tam:			
+*							int p:				
+*							int q:				
+*	Retorno:				int **matrizAux:	matriz de cofactor
+*/
+int **cofactor(int **matriz, int tam, int p, int q){
 	int a,b;
 	int **matrizAux;
 
@@ -140,6 +160,12 @@ int **cofactor(int **matriz,int tam, int p, int q){
 	return matrizAux;
 }
 
+/*
+*	Función: 		void *calculaDet(void *valor)
+*	Descripción:	
+*	Parametro de entrada:	void *valor:	Estructura de los datos de la matriz a trabajar
+*	Retorno:				---
+*/
 void *calculaDet(void *valor){
 	datosMatriz *datos;
 	datos = (datosMatriz *)valor;
