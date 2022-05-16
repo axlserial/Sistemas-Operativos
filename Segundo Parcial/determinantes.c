@@ -119,7 +119,7 @@ int **creaMatriz(int tam){
 
 /*
 *	Función: 		double determinante2X2(int **matriz)
-*	Descripción:	Calcula el determinante de una matriz de 2x2
+*	Descripción:	Calcula el determinante de una matriz de 2x2.
 *	Parametro de entrada:	int ** matriz:		Matriz de 2x2 a calcular su determinante
 *	Retorno:				double resultado:	Determinante de la matriz dada
 */
@@ -131,10 +131,11 @@ double determinante2X2(int **matriz){
 
 /*
 *	Función: 		int **cofactor(int **matriz,int tam, int p, int q)
-*	Descripción:	
-*	Parametro de entrada:	int tam:			
-*							int p:				
-*							int q:				
+*	Descripción:	Calcula el cofactor de una matriz de tamaño n.
+*	Parametro de entrada:	int **matriz: matriz cuadrada.
+*							int tam: tamaño de la matriz.			
+*							int p:	Fila de referencia de donde obtenemos el minimo.		
+*							int q:	Columna de referencia donde se encuentra el minimo.		
 *	Retorno:				int **matrizAux:	matriz de cofactor
 */
 int **cofactor(int **matriz, int tam, int p, int q){
@@ -162,7 +163,9 @@ int **cofactor(int **matriz, int tam, int p, int q){
 
 /*
 *	Función: 		void *calculaDet(void *valor)
-*	Descripción:	
+*	Descripción:	Función que calcula el determinante de una matriz de forma recursiva. En ella,
+*					se crean los hilos necesarios para calcular la mutiplicación de un minimo por
+*					su cofactor correspondiente.
 *	Parametro de entrada:	void *valor:	Estructura de los datos de la matriz a trabajar
 *	Retorno:				---
 */
