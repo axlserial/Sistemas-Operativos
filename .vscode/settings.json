@@ -18,6 +18,8 @@
 		"magic.h": "c",
 		"utsname.h": "c",
 		"stat.h": "c",
-		"utmp.h": "c"
+		"utmp.h": "c",
+		"sysmacros.h": "c",
+		"ioctl.h": "c"
 	}
 }
