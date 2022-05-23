@@ -1,4 +1,4 @@
-#Sistemas Operativos - Tareas
+#Sistemas Operativos
 
 Aquí se encontrarán los códigos de los ejercicios y las tareas para la materia de Sistemas Operativos.
 
