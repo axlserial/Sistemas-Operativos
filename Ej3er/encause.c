@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
 		execlp("grep", "grep", argv[1], NULL);
 	}
 
-	else {
+	if (pid1 != 0 && pid2 != 0) {
 		waitpid(pid1, &estado, 0);
 		waitpid(pid2, &estado, 0);
 	}
