@@ -1,3 +1,10 @@
+/*
+* Programa que despliega todos los procesos que aparecen registrados en /proc.
+* Integrantes:	Ayala Ruiz Mario Antonio
+*				Elorza Velásquez Margarita
+*				García González Axel Isaac
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

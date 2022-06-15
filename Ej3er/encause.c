@@ -1,45 +1,36 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
 
-int main(int argc, char *argv[]) {
-	int tube[2], estado;
-	pid_t pid1, pid2;
+#define STDIN    0    
+#define STDOUT   1    
 
-	if (argc != 2) {
-		printf("Debes pasar el argumento para GREP\n");
-		exit(EXIT_FAILURE);
-	}
-	
-	if (pipe(tube) == -1) {
-		perror("pipe");
-		exit(EXIT_FAILURE);
-	}
+int main( int argc, char *argv[] ) {
+    int tube[2];
+    int status, pid1, pid2;
+   
+    pipe ( tube );
 
-	// Proceso 1
-	if ((pid1 = fork()) == 0) {
-		dup2(tube[1], 1);
-		close(tube[1]);
-		close(tube[0]);
-		
-		execlp("ls", "ls", NULL);
-	}
+    if ( (pid1 = fork()) == 0){
+        close ( tube[ STDIN ] );   /* cerrar extremo no necesario */
+        dup2 ( tube[ STDOUT ], STDOUT_FILENO );
+        close ( tube[ STDOUT ] );
+        execlp ( "/bin/ls", "ls", "-l", NULL);
+    } else {                      
+        close ( tube[ STDOUT ] );    // se debe cerrar antes de fork        
+        if ( ( pid2 = fork ( )) == 0 ) {
+            //close ( tube[ STDOUT ] );     <---- estaba cerrando aqui
+            dup2 ( tube[ STDIN ], STDIN_FILENO );
+            close ( tube[ STDIN ] );
+            execlp ( "/bin/grep", "grep", "pdf", NULL);
+        }
+    }
+    wait ( &status );
+    wait ( &status );
+    printf("\n");
+    exit(1);
 
-	// Proceso 2
-	else if ((pid2 = fork()) == 0) {
-		dup2(tube[0], 0);
-		close(tube[0]);
-		close(tube[1]);
-
-		execlp("grep", "grep", argv[1], NULL);
-	}
-
-	if (pid1 != 0 && pid2 != 0) {
-		waitpid(pid1, &estado, 0);
-		waitpid(pid2, &estado, 0);
-	}
-
-	return EXIT_SUCCESS;
 }
