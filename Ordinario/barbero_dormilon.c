@@ -1,198 +1,142 @@
-#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <semaphore.h>
+#include <pthread.h>
 #include <time.h>
+#include <semaphore.h>
+#include <unistd.h>
 #include <sys/types.h>
-#include <sys/time.h>
 
-void *barber_function(void *idp);
-void *customer_function(void *idp);
-void serve_customer();
-void *make_customer_function();
-    
-/* Mutex */
-pthread_mutex_t srvCust;
+// Funciones para hilos
+void *barbero(void *dato);
+void *cliente(void *dato);
 
-/* Semaphores */
-sem_t barber_ready; 
-sem_t customer_ready;
-sem_t modifySeats;
+// Semaforos
+sem_t barbero_sem; 
+sem_t cliente_sem;
+sem_t sillas_sem;
 
-/* Inputs */
-int chair_cnt;
-int total_custs;
-
-int available_seats;
-int no_served_custs = 0;
-time_t waiting_time_sum;
-
-void *barber_function(void *idp)
-{    
-    int counter = 0;
-    
-    while (1)
-    {
-        /* Lock semaphore "customer_ready" - try to get a customer or sleep if there is none */
-        sem_wait(&customer_ready);
-
-        /* Lock semaphore "modifySeats" - try to get access to seats */
-        sem_wait(&modifySeats);
-
-        /* Increment by 1 the available seats */
-        available_seats++;
-
-        /* Unlock semaphore "modifySeats" */
-        sem_post(&modifySeats);
-
-        /* Unlock semaphore "barber_ready" - set barber ready to serve */
-        sem_post(&barber_ready);        
-
-        /* Lock mutex "srvCust" - protect service by the same barber from other threads */
-        pthread_mutex_lock(&srvCust);
-
-        /* Serve customer */
-        serve_customer();    
-
-        /* Unlock mutex "srvCust" - finished service */
-        pthread_mutex_unlock(&srvCust);
-        
-        printf("Customer was served.\n");
-	    
-        counter++; 
-        if (counter == (total_custs - no_served_custs))
-            break;
-    }
-    pthread_exit(NULL);    
-}
-
-void *customer_function(void *idp)
-{  
-    struct timeval start, stop;
-     
-    /* Lock semaphore "modifySeats" */
-    sem_wait(&modifySeats); 
-
-    /* If there is available seat */
-    if (available_seats >= 1)
-    {
-        /* Occupy a seat */
-        available_seats--;
-
-        printf("Customer[pid = %lu] is waiting.\n", pthread_self());
-        printf("Available seats: %d\n", available_seats);
-        
-        /* Start waiting-time counter */
-        gettimeofday(&start, NULL);
-           
-        /* Unlock semaphore "customer_ready" - set the customer ready to be served */
-        sem_post(&customer_ready);
-
-        /* Unlock semaphore "modifySeats" */
-        sem_post(&modifySeats);         
-
-        /* Lock semaphore "barber_ready" - wait for barber to get ready */
-        sem_wait(&barber_ready); 
-
-        /* Stop waiting-time counter */
-        gettimeofday(&stop, NULL);
-        
-        double sec = (double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec);
-        
-        /* Assign the time spent to global variable (ms) */
-        waiting_time_sum += 1000 * sec;
-        printf("Customer[pid = %lu] is being served. \n", pthread_self());        
-    }
-    else
-    {
-        /* Unlock semaphore "modifySeats" */
-        sem_post(&modifySeats);
-        no_served_custs++;
-        printf("A Customer left.\n");
-    }
-        
-    pthread_exit(NULL);
-}
-
-void serve_customer() {
-    /* Random number between 0 and 400 (miliseconds) */
-    int s = rand() % 401; 
-	
-    /* Convert miliseconds to microseconds */
-    s = s * 1000; 
-    usleep(s);
-}
-
-void *make_customer_function() {
-    int tmp;   
-    int counter = 0;
-
-    while (counter < total_custs)
-    {
-        /* Declare and create a customer thread */
-        pthread_t customer_thread;
-	
-        tmp = pthread_create(&customer_thread, NULL, (void *)customer_function, NULL);  
-	
-        if (tmp)
-            printf("Failed to create thread.");
-        
-        /* Increment the counter */
-        counter++;
-            
-        /* Sleep for 100ms before creating another customer */
-        usleep(100000);
-    }
-
-	pthread_exit(NULL);
-}
+// Variables globales
+int sillas;
+int sillas_disponibles;
+int clientes_totales;
+int no_atendidos;
 
 int main() {	
-    /* Initialization, should only be called once */
-    srand(time(NULL));   
+	// Inicializa para generar tiempos aleatorios
+	srand(time(NULL));   
 
-    /* Barber 1 thread */
-    pthread_t barber_1;
+	// Hilo del barbero
+	pthread_t barbero_hilo;
 
-    /* Thread that creates customers */
-    pthread_t customer_maker;
-
-    int tmp;
-
-    /* Initialize mutex */
-    pthread_mutex_init(&srvCust, NULL);
-
-    /* Initialize semaphores */
-    sem_init(&customer_ready, 0, 0);
-    sem_init(&barber_ready, 0, 0);
-    sem_init(&modifySeats, 0, 1);
-    
-    printf("Please enter the number of seats: \n");
-    scanf("%d", &chair_cnt);
-    
-    printf("Please enter the total customers: \n");
-    scanf("%d", &total_custs);
-    
-    available_seats = chair_cnt; 
-    
-    /* Create barber thread */
-    tmp = pthread_create(&barber_1, NULL, (void *)barber_function, NULL);  
+	// Inicializa semaforos
+	sem_init(&barbero_sem, 0, 0);
+	sem_init(&cliente_sem, 0, 0);
+	sem_init(&sillas_sem, 0, 1);
 	
-    if (tmp)
-        printf("Failed to create thread."); 
-    
-    /* Create customer_maker thread */
-    tmp = pthread_create(&customer_maker, NULL, (void *)make_customer_function, NULL);  
+	// Obtiene sillas y clientes
+	printf("Cantidad de n sillas: ");
+	scanf("%d", &sillas);
+	sillas_disponibles = sillas;
 	
-    if (tmp)
-        printf("Failed to create thread."); 
-     
-    /* Wait for threads to finish */
-    pthread_join(barber_1, NULL);
-    pthread_join(customer_maker, NULL);
-        
-    printf("\n------------------------------------------------\n");
-    printf("Average customers' waiting time: %f ms.\n", (waiting_time_sum / (double) (total_custs - no_served_custs)));
-    printf("Number of customers that were forced to leave: %d\n", no_served_custs);    	
+	printf("Cantidad total de clientes: ");
+	scanf("%d", &clientes_totales);
+	printf("------\n");
+	
+	// Crea el hilo del barbero
+	pthread_create(&barbero_hilo, NULL, barbero, NULL);
+
+	// Crea hilos de clientes
+	for (int i = 0; i < clientes_totales; i++) {
+		pthread_t cliente_hilo;
+		pthread_create(&cliente_hilo, NULL, cliente, NULL);
+
+		// Espera un tiempo aleatorio entre 0 y 100 milisegundos
+		// antes de crear un nuevo hilo cliente
+		usleep((rand() % 101) * 1000);
+	}
+	 
+	// Espera que el barbero termine de atender
+	pthread_join(barbero_hilo, NULL);
+
+	// Elimina semaforos
+	sem_destroy(&barbero_sem);
+	sem_destroy(&cliente_sem);
+	sem_destroy(&sillas_sem);
+
+	return EXIT_SUCCESS;
+}
+
+void *barbero(void *dato) {
+	int contador = 0;
+	
+	while (1) {
+		// Espera a que un cliente esté listo, duerme
+		sem_wait(&cliente_sem);
+
+		// Trata de acceder a la cantidad de sillas
+		sem_wait(&sillas_sem);
+
+		// Como va a atender a un cliente, aumenta
+		// cantidad de sillas disponibles para espera
+		sillas_disponibles++;
+
+		// Libera semaforo de sillas
+		sem_post(&sillas_sem);
+
+		// Indica que el barbero está listo para atender
+		sem_post(&barbero_sem);        
+
+		// Atiende al cliente una cantidad de tiempo
+		// aleatoria
+		usleep((rand() % 1001) * 1000);
+		
+		printf("Cliente atendido.\n\n");
+		
+		// Sí ya atendió a todos los clientes
+		contador++; 
+		if (contador == (clientes_totales - no_atendidos)) {
+			printf("Sin más clientes que atender.\n");
+			break;
+		}
+	}
+
+	pthread_exit(NULL);    
+}
+
+void *cliente(void *dato) {
+	// Espera a que pueda acceder a las sillas
+	sem_wait(&sillas_sem); 
+
+	// Sí hay sillas disponibles
+	if (sillas_disponibles >= 1) {
+		// Ocupa un asiento
+		sillas_disponibles--;
+
+		printf("El cliente (tid: %lu) está esperando.\n", pthread_self());
+		printf("Sillas disponibles después que entró el cliente: %d\n\n", sillas_disponibles);
+
+		// Indica que el cliente está listo para ser atendido
+		sem_post(&cliente_sem);
+
+		// Libera sillas
+		sem_post(&sillas_sem);         
+
+		// Espera a ser atendido por el barbero
+		sem_wait(&barbero_sem); 
+
+		// Cuando llegue aquí, indica que el barbero lo está atendiendo
+		printf("El cliente (tid: %lu) está siendo atendido.\n\n", pthread_self());        
+	} else {
+
+		// Libera el semaforo de sillas
+		sem_post(&sillas_sem);
+
+		// Aumenta contador de clientes no atendidos
+		no_atendidos++;
+
+		// Mensaje de despedida.
+		printf("Cliente (tid: %lu) no encontró silla, se fué.\n\n", pthread_self());
+	}
+		
+	pthread_exit(NULL);
 }
