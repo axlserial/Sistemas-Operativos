@@ -37,6 +37,7 @@ int main() {
 	printf("Cantidad de n sillas: ");
 	scanf("%d", &sillas);
 	sillas_disponibles = sillas;
+	no_atendidos = 0;
 	
 	printf("Cantidad total de clientes: ");
 	scanf("%d", &clientes_totales);
